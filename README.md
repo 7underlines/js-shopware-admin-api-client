@@ -1,8 +1,8 @@
-# Admin Node-API Client for Shopware 6
+# Admin JavaScript-API Client for Shopware 6
 
-This code highly bases on the [Administration Code](https://github.com/shopware/platform/tree/745f1f7aaa5c47d123e04b5b5b93b81161eae19a/src/Administration/Resources/app/administration/src/core/data-new) and made NodeJs compatible.
+This code highly bases on the [Administration Code](https://github.com/shopware/platform/tree/745f1f7aaa5c47d123e04b5b5b93b81161eae19a/src/Administration/Resources/app/administration/src/core/data-new) and made JavaScript compatible.
 
-## Quickstart
+## Running the examples
 
 Clone the repository and run the following commands from inside the repository:
 
