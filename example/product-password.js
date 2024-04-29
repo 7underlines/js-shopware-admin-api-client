@@ -13,9 +13,9 @@ async function test() {
 
     for (const product of products) {
         console.log(product.name);
-        product.name = 'Node Test';
-        console.log(product.name);
-        await repository.save(product, api.defaultContext());
+        // product.name = 'Node Test';
+        // console.log(product.name);
+        // await repository.save(product, api.defaultContext());
     }
 }
 
