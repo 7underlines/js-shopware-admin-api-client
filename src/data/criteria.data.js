@@ -211,6 +211,18 @@ export default class Criteria {
         return this;
     }
 
+    addIncludes(path) {
+        const parts = path.split('.');
+
+        let criteria = this;
+        parts.forEach((part) => {
+            console.log(part)
+            // criteria = criteria.getIncludes(part);
+        });
+
+        return this;
+    }
+
     /**
      * Ensures that a criterion is created for each segment of the passed path.
      * Returns the criteria instance of the last path segment

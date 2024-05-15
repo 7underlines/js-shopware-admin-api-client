@@ -62,7 +62,7 @@ export default class Repository {
 
         const url = `/search${this.route}`;
 
-        // console.log(this.options);
+        // console.log(criteria);
 
         return this.httpClient
             .post(url, criteria.parse(), {
