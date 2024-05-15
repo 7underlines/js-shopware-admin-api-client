@@ -67,7 +67,7 @@ export default class Criteria {
 	        params.includes = {};
 
 			this.includes.forEach((item) => {
-			    params.includes[item.includes] = item.includes.parse();
+			    params.includes[item.includes] = item.fields;
             });
 	    }
 
@@ -211,15 +211,18 @@ export default class Criteria {
         return this;
     }
 
-    addIncludes(path) {
-        const parts = path.split('.');
-
+    /**
+     * If you only want to include specific fields in the response instead of all fields.
+     * @param {String} path
+     * @param {Array} fields
+     * @returns {Criteria}
+     */
+    addInclude(path, fields) {
         let criteria = this;
-        parts.forEach((part) => {
-            console.log(part)
-            // criteria = criteria.getIncludes(part);
+        criteria.includes.push({
+            includes: path,
+            fields: fields
         });
-
         return this;
     }
 
