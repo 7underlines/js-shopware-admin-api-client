@@ -14,6 +14,7 @@ export default class Criteria {
         this.sortings = [];
         this.aggregations = [];
         this.totalCountMode = 1;
+        this.includes = [];
     }
 
     static fromCriteria(criteria) {
@@ -62,6 +63,13 @@ export default class Criteria {
                 params.associations[item.association] = item.criteria.parse();
             });
         }
+		if (this.includes.length > 0) {
+	        params.includes = {};
+
+			this.includes.forEach((item) => {
+			    params.includes[item.includes] = item.includes.parse();
+            });
+	    }
 
         if (this.totalCountMode !== null) {
             params['total-count-mode'] = this.totalCountMode;
