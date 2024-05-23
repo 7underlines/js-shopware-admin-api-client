@@ -7,6 +7,7 @@ function castValueToNullIfNecessary(value) {
     return value;
 }
 
+// eslint-disable-next-line sw-deprecation-rules/private-feature-declarations
 export default class ChangesetGenerator {
     constructor(definition) {
         this.definition = definition;
@@ -17,7 +18,7 @@ export default class ChangesetGenerator {
      * @param entity
      */
     getPrimaryKeyData(entity) {
-        const definition = Shopware.EntityDefinition.get(entity.getEntityName());
+        const definition = this.definition.get(entity.getEntityName());
         const pkFields = definition.getPrimaryKeyFields();
         const pkData = {};
 
@@ -44,7 +45,6 @@ export default class ChangesetGenerator {
      * @private
      * @param {Entity} entity
      * @param deletionQueue
-     * @param updateQueue
      * @returns {null}
      */
     recursion(entity, deletionQueue) {
@@ -79,12 +79,7 @@ export default class ChangesetGenerator {
             }
 
             if (definition.isJsonField(field)) {
-                const originValueStringified = types.isEmpty(originValue) ? null : JSON.stringify(originValue);
-                const draftValueStringified = types.isEmpty(draftValue) ? null : JSON.stringify(draftValue);
-
-                const equals = originValueStringified === draftValueStringified;
-
-                if (!equals) {
+                if (!types.isEqual(originValue, draftValue)) {
                     if (Array.isArray(draftValue) && draftValue.length <= 0) {
                         changes[fieldName] = [];
                         return;
@@ -98,7 +93,9 @@ export default class ChangesetGenerator {
 
             if (field.type !== 'association') {
                 // if we don't know what kind of field we write send complete draft
-                changes[fieldName] = draftValue;
+                if (draftValue !== originValue) {
+                    changes[fieldName] = draftValue;
+                }
                 return;
             }
 
@@ -111,7 +108,7 @@ export default class ChangesetGenerator {
                     break;
                 }
                 case 'many_to_many': {
-                    const associationChanges = this.handleManyToMany(draftValue, originValue, deletionQueue);
+                    const associationChanges = this.handleManyToMany(draftValue, originValue, deletionQueue, field, entity);
                     if (associationChanges.length > 0) {
                         changes[fieldName] = associationChanges;
                     }
@@ -138,7 +135,7 @@ export default class ChangesetGenerator {
         });
 
         if (Object.keys(changes).length > 0) {
-            return changes;
+            return { ...this.getPrimaryKeyData(entity), ...changes };
         }
 
         return null;
@@ -148,22 +145,35 @@ export default class ChangesetGenerator {
      * @private
      * @param {EntityCollection} draft
      * @param {EntityCollection} origin
+     * @param {Object} field
+     * @param {Entity} entity
      * @param deletionQueue
      * @returns {Array}
      */
-    handleManyToMany(draft, origin, deletionQueue) {
+    handleManyToMany(draft, origin, deletionQueue, field, entity) {
         const changes = [];
         const originIds = origin.getIds();
 
-        draft.forEach((entity) => {
-            if (!originIds.includes(entity.id)) {
-                changes.push({ id: entity.id });
+        draft.forEach((nested) => {
+            if (!originIds.includes(nested.id)) {
+                changes.push({ id: nested.id });
             }
         });
 
         originIds.forEach((id) => {
+            console.log(draft)
             if (!draft.has(id)) {
-                deletionQueue.push({ route: draft.source, key: id });
+                const primary = {
+                    [field.local]: entity.id,
+                    [field.reference]: id,
+                };
+
+                deletionQueue.push({
+                    route: draft.source,
+                    key: id,
+                    entity: field.mapping,
+                    primary: primary,
+                });
             }
         });
 
@@ -208,13 +218,19 @@ export default class ChangesetGenerator {
             }
         });
 
-        if (field.flags && field.flags.cascade_delete) {
+        if (field.flags?.cascade_delete) {
             originIds.forEach((id) => {
                 if (!draft.has(id)) {
+                    const primary = {
+                        [field.primary]: id,
+                    };
+
                     // still existing?
                     deletionQueue.push({
                         route: draft.source,
-                        key: id
+                        key: id,
+                        entity: field.entity,
+                        primary,
                     });
                 }
             });

@@ -128,12 +128,24 @@ export default class EntityDefinition {
         return jsonTypes.includes(field.type);
     }
 
+    isJsonObjectField(field) {
+        return field.type === 'json_object';
+    }
+
+    isJsonListField(field) {
+        return field.type === 'json_list';
+    }
+
     isToManyAssociation(field) {
         return field.type === 'association' && ['one_to_many', 'many_to_many'].includes(field.relation);
     }
 
     isToOneAssociation(field) {
         return field.type === 'association' && ['many_to_one', 'one_to_one'].includes(field.relation);
+    }
+
+    isOneToOneAssociation(field) {
+        return field.type === 'association' && field.relation === 'one_to_one';
     }
 
     isTranslatableField(field) {
