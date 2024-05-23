@@ -161,7 +161,6 @@ export default class ChangesetGenerator {
         });
 
         originIds.forEach((id) => {
-            console.log(draft)
             if (!draft.has(id)) {
                 const primary = {
                     [field.local]: entity.id,
