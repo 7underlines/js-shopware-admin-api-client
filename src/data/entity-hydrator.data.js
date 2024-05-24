@@ -24,7 +24,6 @@ export default class EntityHydrator {
         response.data.data.forEach((item) => {
             entities.push(this.hydrateEntity(entityName, item, response.data, context, criteria));
         });
-
         return new EntityCollection(
             route,
             entityName,
@@ -94,6 +93,7 @@ export default class EntityHydrator {
             const value = row.relationships[property];
 
             if (property === 'extensions') {
+           											 							
                 data[property] = this.hydrateExtensions(id, value, schema, response, context, criteria);
             }
 
@@ -172,10 +172,12 @@ export default class EntityHydrator {
      */
     hydrateToMany(criteria, property, value, entity, context, response) {
         const associationCriteria = this.getAssociationCriteria(criteria, property);
-
+let start = value.links.related.indexOf(context.apiResourcePath)
+if ( start == -1 ){
+	start--
+}
         const url = value.links.related.substr(
-            value.links.related.indexOf(context.apiResourcePath)
-            +
+            start +
             context.apiResourcePath.length
         );
 
@@ -187,6 +189,7 @@ export default class EntityHydrator {
 
         value.data.forEach((link) => {
             const nestedRaw = this.getIncluded(link.type, link.id, response);
+
             const nestedEntity = this.hydrateEntity(
                 link.type,
                 nestedRaw,
@@ -198,6 +201,7 @@ export default class EntityHydrator {
             if (nestedEntity) {
                 collection.add(nestedEntity);
             }
+            
         });
         return collection;
     }
@@ -242,7 +246,6 @@ export default class EntityHydrator {
 
             if (schema.isToManyAssociation(field)) {
                 data[property] = this.hydrateToMany(criteria, property, value, field.entity, context, response);
-
                 return true;
             }
 
@@ -253,10 +256,11 @@ export default class EntityHydrator {
                     data[property] = nestedEntity;
                 }
             }
+            
 
             return true;
         });
-
+        
         return data;
     }
 }
