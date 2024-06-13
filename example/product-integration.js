@@ -2,7 +2,7 @@ import { createFromIntegration } from '../src/index.js';
 import Criteria from '../src/data/criteria.data.js';
 
 async function test() {
-    let api = await createFromIntegration('http://localhost', 'SWIAD0VBY1HTR2PSTM5OAUVHMQ', 'eXcxZUlDWW5IZG1GRk5iM1MwUnRjb2cwN0dBcjFOQ2lySlUwYXk', 1);
+    let api = await createFromIntegration('http://localhost', 'SWIAD0VBY1HTR2PSTM5OAUVHMQ', 'eXcxZUlDWW5IZG1GRk5iM1MwUnRjb2cwN0dBcjFOQ2lySlUwYXk');
 
     let repository = api.create('product');
     let criteria = new Criteria();

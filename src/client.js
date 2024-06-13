@@ -1,7 +1,7 @@
 import RefreshTokenHelper from './utils/refresh-token.helper.js';
 import axios from 'axios';
 
-export function createClient(url, token, version) {
+export function createClient(url, token) {
     const client = axios.create({
         baseURL: `${url}/api`
     })

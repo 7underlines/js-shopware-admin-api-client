@@ -172,13 +172,13 @@ export default class EntityHydrator {
      */
     hydrateToMany(criteria, property, value, entity, context, response) {
         const associationCriteria = this.getAssociationCriteria(criteria, property);
-let start = value.links.related.indexOf(context.apiResourcePath)
-if ( start == -1 ){
-	start--
-}
+        let start = value.links.related.indexOf(context.apiPath)
+        if ( start == -1 ){
+            start--
+        }
         const url = value.links.related.substr(
             start +
-            context.apiResourcePath.length
+            context.apiPath.length
         );
 
         const collection = new EntityCollection(url, entity, context, associationCriteria);

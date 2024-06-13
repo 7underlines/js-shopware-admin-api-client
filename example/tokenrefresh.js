@@ -9,14 +9,17 @@ async function test() {
     criteria.limit = 1;
     criteria.addFilter(Criteria.equals('parentId', null));
 
-    let products = await repository.search(criteria, api.defaultContext());
-
-    for (const product of products) {
-        console.log(product.name);
-        // product.name = 'Node Test';
-        // console.log(product.name);
-        // await repository.save(product, api.defaultContext());
+    const startTime = Date.now()
+    while (true) {
+        const currentTime = Date.now()
+        const elapsedTime = (currentTime - startTime) / 1000
+        console.log(elapsedTime)
+        let products = await repository.search(criteria, api.defaultContext());
+        for (const product of products) {
+            console.log(product.name);
+        }
     }
+
 }
 
 test();

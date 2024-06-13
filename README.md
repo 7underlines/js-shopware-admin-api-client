@@ -37,7 +37,7 @@ npm i @thomaspeissl/shopware-admin-api-client
 ```js
 import {createFromPasswordAndLogin} from '@thomaspeissl/shopware-admin-api-client';
 
-let api = await createFromPasswordAndLogin('http://myshop.com', 'username', 'password', 1);
+let api = await createFromPasswordAndLogin('http://myshop.com', 'username', 'password');
 ```
 
 ### Using Integration
@@ -45,7 +45,7 @@ let api = await createFromPasswordAndLogin('http://myshop.com', 'username', 'pas
 ```js
 import {createFromIntegration} from '@thomaspeissl/shopware-admin-api-client';
 
-let api = await createFromIntegration('http://myshop.com', 'client_id', 'client_secret', 1);
+let api = await createFromIntegration('http://myshop.com', 'client_id', 'client_secret');
 ```
 
 
