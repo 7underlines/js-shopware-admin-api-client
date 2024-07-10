@@ -15,8 +15,9 @@ async function test() {
         console.log(product.name);
         // product.name = 'Node Test';
         // console.log(product.name);
-        // await repository.save(product, api.defaultContext());
+        // await repository.save(product, api.defaultContext()); // use this if you want to save the changes to this product directly (single update)
     }
+    // await repository.sync(products, api.defaultContext()); // or if you update multiple products you can use this to save all changes at once (bulk update)
 }
 
 test();
