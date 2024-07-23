@@ -20,7 +20,8 @@ export async function createFromPasswordAndLogin(url, username, password) {
 
         throw err;
     }
-
+    res.data.request_at = Date.now();
+    res.data.valid_until = res.data.request_at + res.data.expires_in * 1000 - 50000; // -50000 is a buffer just to be safe
     let api = new Api(url, res.data);
     await api._initialize();
 
