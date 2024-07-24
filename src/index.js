@@ -20,8 +20,7 @@ export async function createFromPasswordAndLogin(url, username, password) {
 
         throw err;
     }
-    res.data.request_at = Date.now();
-    res.data.valid_until = res.data.request_at + res.data.expires_in * 1000 - 50000; // -50000 is a buffer just to be safe
+    res.data.valid_until = Date.now() + res.data.expires_in * 1000;
     let api = new Api(url, res.data);
     await api._initialize();
 
@@ -45,7 +44,7 @@ export async function createFromIntegration(url, id, secret) {
 
         throw err;
     }
-
+    res.data.valid_until = Date.now() + res.data.expires_in * 1000;
     let api = new Api(url, res.data);
     await api._initialize();
 

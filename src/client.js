@@ -19,36 +19,16 @@ export function createClient(url, token) {
 function refreshTokenInterceptor(client) {
     const tokenHandler = new RefreshTokenHelper(client);
 
-    client.interceptors.response.use((response) => {
-        return response;
-    }, (error) => {
-        const { config, response: { status } } = error;
-        const originalRequest = config;
-        const resource = originalRequest.url.replace(originalRequest.baseURL, '');
-
-        if (tokenHandler.whitelist.includes(resource)) {
-            return Promise.reject(error);
+    client.interceptors.request.use((config) => {
+        const resource = config.url.replace(config.baseURL, '');
+        if (tokenHandler.allowlist.includes(resource)) {
+            return config;
         }
-
-        if (status === 401) {
-            if (!tokenHandler.isRefreshing) {
-                tokenHandler.fireRefreshTokenRequest().catch(() => {
-                    return Promise.reject(error);
-                });
-            }
-
-            return new Promise((resolve, reject) => {
-                tokenHandler.subscribe((newToken) => {
-                    // replace the expired token and retry
-                    originalRequest.headers.Authorization = `Bearer ${newToken}`;
-                    originalRequest.url = originalRequest.url.replace(originalRequest.baseURL, '');
-                    resolve(Axios(originalRequest));
-                }, (err) => {
-                    reject(err);
-                });
+        if (!tokenHandler.isRefreshing && Date.now() > client.token.valid_until - 120000) {
+            tokenHandler.fireRefreshTokenRequest().catch((err) => {
+                return Promise.reject(err);
             });
         }
-
-        return Promise.reject(error);
+        return config;
     });
 }

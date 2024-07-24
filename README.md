@@ -15,7 +15,7 @@ docker-compose up -d
 # or docker compose up -d if you have a newer version of docker
 # Visit http://localhost in your browser and refresh until the shop is available
 npm i
-node example/product-password.js
+node example/product.js
 ```
 
 Once you are done, you can stop the docker container with:

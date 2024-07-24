@@ -4,7 +4,7 @@ export default class RefreshTokenHelper {
         this._isRefreshing = false;
         this._subscribers = [];
         this._errorSubscribers = [];
-        this._whitelist = [
+        this._allowlist = [
             '/oauth/token'
         ];
     }
@@ -27,6 +27,7 @@ export default class RefreshTokenHelper {
      * @param {String} token - Renewed access token
      */
     onRefreshToken(token) {
+        token.valid_until = Date.now() + token.expires_in * 1000;
         this._client.token = token;
         this._client.defaults.headers.Authorization = `Bearer ${token.access_token}`;
         this._subscribers = this._subscribers.reduce((accumulator, callback) => {
@@ -63,21 +64,21 @@ export default class RefreshTokenHelper {
             scopes: 'write',
             refresh_token: this._client.token.refresh_token
         }).then((res) => {
-            this.onRefreshToken(res.data);
+            this.onRefreshToken(res.data); // Runs if the request is successful
         }).finally(() => {
-            this.isRefreshing = false;
+            this.isRefreshing = false; // Always runs, regardless of success or failure
         }).catch((err) => {
-            this.onRefreshTokenFailed();
-            return Promise.reject(err);
+            this.onRefreshTokenFailed(); // Runs if there was an error
+            return Promise.reject(err); // Propagates the error
         });
     }
 
-    get whitelist() {
-        return this._whitelist;
+    get allowlist() {
+        return this._allowlist;
     }
 
-    set whitelist(urls) {
-        this._whitelists = urls;
+    set allowlist(urls) {
+        this._allowlist = urls;
     }
 
     get isRefreshing() {

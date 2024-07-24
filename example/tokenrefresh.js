@@ -11,6 +11,8 @@ async function test() {
 
     const startTime = Date.now()
     while (true) {
+        await new Promise(r => setTimeout(r, 10000));
+        console.log(api.defaultContext().authToken.access)
         const currentTime = Date.now()
         const elapsedTime = (currentTime - startTime) / 1000
         console.log(elapsedTime)
@@ -19,7 +21,6 @@ async function test() {
             console.log(product.name);
         }
     }
-
 }
 
 test();
