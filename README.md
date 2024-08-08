@@ -2,6 +2,10 @@
 
 This code highly bases on the [Administration Code](https://github.com/shopware/platform/tree/745f1f7aaa5c47d123e04b5b5b93b81161eae19a/src/Administration/Resources/app/administration/src/core/data-new) and made JavaScript compatible.
 
+## Template Repository
+
+You can also use the [Shopware API Quickstart Template Repository](https://github.com/thomaspeissl/shopware-api-quickstart) to quickly get started.
+
 ## Running the examples with a local Shopware 6 instance
 
 Usually, running the examples is quite simple if you have an environment that already has a functional git and docker installation.
