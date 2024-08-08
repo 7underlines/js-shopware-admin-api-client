@@ -57,12 +57,14 @@ export default class Repository {
      * @param {Object} context
      * @returns {Promise}
      */
-    search(criteria, context) {
+    search(criteria, context, debug = false) {
         const headers = this.buildHeaders(context);
 
         const url = `/search${this.route}`;
 
-        // console.log(criteria.parse());
+        if ( debug ) {
+            console.log(criteria.parse());
+        }
 
         return this.httpClient
             .post(url, criteria.parse(), {
