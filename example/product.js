@@ -12,7 +12,7 @@ async function test() {
     let products = await repository.search(criteria, api.defaultContext());
 
     for (const product of products) {
-        console.log(product);
+        console.log(product.name);
         // product.name = 'Node Test';
         // console.log(product.name);
         // await repository.save(product, api.defaultContext()); // use this if you want to save the changes to this product directly (single update)
