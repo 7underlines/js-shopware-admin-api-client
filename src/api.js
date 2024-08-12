@@ -22,7 +22,7 @@ export default class Api {
 
         const hydrator = new EntityHydrator(this.EntityDefinition);
         const changesetGenerator = new ChangesetGenerator(this.EntityDefinition);
-        const entityFactory = new EntityFactory();
+        const entityFactory = new EntityFactory(this.EntityDefinition);
 
         this.create = (entityName, route, options) => {
             if (!route) {

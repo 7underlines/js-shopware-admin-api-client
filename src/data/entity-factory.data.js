@@ -4,6 +4,10 @@ import Criteria from './criteria.data.js';
 import {v4} from 'uuid';
 
 export default class EntityFactory {
+    constructor(definition) {
+        this.definition = definition;
+    }
+
     /**
      * Creates a new entity for the provided entity name.
      * Returns null for unknown entities.
@@ -16,7 +20,7 @@ export default class EntityFactory {
     create(entityName, id, context) {
         id = id || v4().replace(/-/g, '');
 
-        const definition = Shopware.EntityDefinition.get(entityName);
+        const definition = this.definition.get(entityName);
 
         if (!definition) {
             console.warn('Entity factory', `No schema found for entity ${entityName}`);
