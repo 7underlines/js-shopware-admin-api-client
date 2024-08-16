@@ -41,6 +41,9 @@ export async function createFromIntegration(url, id, secret) {
         if (err.response.status === 401) {
             throw new Error('Invalid credentials');
         }
+        else if (err.response.status === 500) {
+            throw new Error('Access key is invalid');
+        }
 
         throw err;
     }
@@ -49,4 +52,16 @@ export async function createFromIntegration(url, id, secret) {
     await api._initialize();
 
     return api;
+}
+
+// create from integration or password
+export async function create(url, id, secret) {
+    try {
+        return await createFromIntegration(url, id, secret);
+    } catch(err) {
+        if (err.message === 'Access key is invalid') {
+            return await createFromPasswordAndLogin(url, id, secret);
+        }
+        throw err;
+    }
 }
