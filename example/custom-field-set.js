@@ -1,7 +1,7 @@
-import { createFromPasswordAndLogin } from '../src/index.js';
+import { create } from '../src/index.js';
 
 async function test() {
-    let api = await createFromPasswordAndLogin('http://localhost', 'admin', 'shopware');
+    let api = await create('http://localhost', 'admin', 'shopware');
 
     let repository = api.create('custom_field_set');
     let set = repository.create();

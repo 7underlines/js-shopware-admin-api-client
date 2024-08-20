@@ -36,26 +36,14 @@ docker-compose down
 npm i shopware-admin-api-client
 ```
 
-### Using Username and Password
-
-```js
-import {createFromPasswordAndLogin} from 'shopware-admin-api-client';
-
-let api = await createFromPasswordAndLogin('http://myshop.com', 'username', 'password');
-```
-
-### Using Integration
-
-```js
-import {createFromIntegration} from 'shopware-admin-api-client';
-
-let api = await createFromIntegration('http://myshop.com', 'client_id', 'client_secret');
-```
-
-
 ## Usage
 
 ```js
+import {create} from 'shopware-admin-api-client';
+
+// Create the API client
+let api = await create('http://localhost', 'admin', 'shopware');
+
 // Create repository
 const productRepository = api.create('product');
 
@@ -68,6 +56,8 @@ const definition = api.EntityDefinition;
 console.log(definition.get('product'))
 console.log(definition.getRequiredFields('product'))
 ```
+
+Take a look at the **[index.js](https://github.com/7underlines/shopware-api-quickstart/blob/main/index.js)** file in the quickstart template repository for a complete example.
 
 ## Credits
 

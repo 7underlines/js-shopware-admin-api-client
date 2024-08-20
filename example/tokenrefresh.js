@@ -1,8 +1,9 @@
-import { createFromPasswordAndLogin } from '../src/index.js';
+import { create } from '../src/index.js';
 import Criteria from '../src/data/criteria.data.js';
 
+// this is a test to see if the token refresh works
 async function test() {
-    let api = await createFromPasswordAndLogin('http://localhost', 'admin', 'shopware');
+    let api = await create('http://localhost', 'admin', 'shopware');
 
     let repository = api.create('product');
     let criteria = new Criteria();
