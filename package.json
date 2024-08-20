@@ -1,6 +1,6 @@
 {
-  "name": "@thomaspeissl/shopware-admin-api-client",
-  "version": "1.1.1",
+  "name": "shopware-admin-api-client",
+  "version": "1.2.0",
   "description": "Shopware 6 admin API client",
   "main": "src/index.js",
   "type": "module",
@@ -9,18 +9,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/thomaspeissl/js-shopware-admin-api-client.git"
+    "url": "git+https://github.com/7underlines/js-shopware-admin-api-client.git"
   },
   "keywords": [
     "Shopware",
     "Admin-API"
   ],
-  "author": "Thomas Peißl",
+  "author": "7underlines",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/thomaspeissl/js-shopware-admin-api-client/issues"
+    "url": "https://github.com/7underlines/js-shopware-admin-api-client/issues"
   },
-  "homepage": "https://github.com/thomaspeissl/js-shopware-admin-api-client#readme",
+  "homepage": "https://github.com/7underlines/js-shopware-admin-api-client#readme",
   "dependencies": {
     "axios": "^1.7.4",
     "lodash": "^4.17.21",
