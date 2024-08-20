@@ -4,7 +4,7 @@ This code highly bases on the [Administration Code](https://github.com/shopware/
 
 ## Template Repository
 
-You can also use the [Shopware API Quickstart Template Repository](https://github.com/thomaspeissl/shopware-api-quickstart) to quickly get started.
+You can also use the [Shopware API Quickstart Template Repository](https://github.com/7underlines/shopware-api-quickstart) to quickly get started.
 
 ## Running the examples with a local Shopware 6 instance
 
