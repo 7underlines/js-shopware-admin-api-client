@@ -13,7 +13,7 @@ Usually, running the examples is quite simple if you have an environment that al
 To get started, simply try to execute the following in your terminal/shell:
 
 ```bash
-git clone https://github.com/thomaspeissl/js-shopware-admin-api-client
+git clone https://github.com/7underlines/js-shopware-admin-api-client
 cd js-shopware-admin-api-client
 docker-compose up -d
 # or docker compose up -d if you have a newer version of docker
@@ -33,13 +33,13 @@ docker-compose down
 ### Installation
 
 ```bash
-npm i @thomaspeissl/shopware-admin-api-client
+npm i shopware-admin-api-client
 ```
 
 ### Using Username and Password
 
 ```js
-import {createFromPasswordAndLogin} from '@thomaspeissl/shopware-admin-api-client';
+import {createFromPasswordAndLogin} from 'shopware-admin-api-client';
 
 let api = await createFromPasswordAndLogin('http://myshop.com', 'username', 'password');
 ```
@@ -47,7 +47,7 @@ let api = await createFromPasswordAndLogin('http://myshop.com', 'username', 'pas
 ### Using Integration
 
 ```js
-import {createFromIntegration} from '@thomaspeissl/shopware-admin-api-client';
+import {createFromIntegration} from 'shopware-admin-api-client';
 
 let api = await createFromIntegration('http://myshop.com', 'client_id', 'client_secret');
 ```
