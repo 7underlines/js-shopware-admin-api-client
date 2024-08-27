@@ -152,6 +152,10 @@ export default class ChangesetGenerator {
      */
     handleManyToMany(draft, origin, deletionQueue, field, entity) {
         const changes = [];
+        // return early if origin is null
+        if (!origin) {
+            return changes;
+        }
         const originIds = origin.getIds();
 
         draft.forEach((nested) => {
@@ -189,6 +193,10 @@ export default class ChangesetGenerator {
      */
     handleOneToMany(field, draft, origin, deletionQueue) {
         const changes = [];
+        // return early if origin is null
+        if (!origin) {
+            return changes;
+        }
         const originIds = origin.getIds();
 
         // check for new and updated items
