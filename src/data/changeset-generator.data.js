@@ -74,8 +74,11 @@ export default class ChangesetGenerator {
             }
 
             if (field.flags.extension) {
-                draftValue = castValueToNullIfNecessary(draft.extensions[fieldName]);
-                originValue = castValueToNullIfNecessary(origin.extensions[fieldName]);
+                // extensions cloud be undefined
+                if (origin.extensions || draft.extensions) {
+                    draftValue = castValueToNullIfNecessary(draft.extensions[fieldName]);
+                    originValue = castValueToNullIfNecessary(origin.extensions[fieldName]);
+                }
             }
 
             if (definition.isJsonField(field)) {
