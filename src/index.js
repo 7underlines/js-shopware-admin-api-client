@@ -48,7 +48,7 @@ export async function createFromIntegration(url, id, secret) {
         throw err;
     }
     res.data.valid_until = Date.now() + res.data.expires_in * 1000;
-    let api = new Api(url, res.data);
+    let api = new Api(url, res.data, id, secret);
     await api._initialize();
 
     return api;

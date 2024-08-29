@@ -58,19 +58,35 @@ export default class RefreshTokenHelper {
     fireRefreshTokenRequest() {
         this.isRefreshing = true;
 
-        return this._client.post(`${this._client.defaultUrl}/api/oauth/token`, {
-            grant_type: 'refresh_token',
-            client_id: 'administration',
-            scopes: 'write',
-            refresh_token: this._client.token.refresh_token
-        }).then((res) => {
-            this.onRefreshToken(res.data); // Runs if the request is successful
-        }).finally(() => {
-            this.isRefreshing = false; // Always runs, regardless of success or failure
-        }).catch((err) => {
-            this.onRefreshTokenFailed(); // Runs if there was an error
-            return Promise.reject(err); // Propagates the error
-        });
+        // this._client.token.refresh_token could be undefined for client credentials grant type
+        if (!this._client.token.refresh_token) {
+            return this._client.post(`${this._client.defaultUrl}/api/oauth/token`, {
+                client_id: this._client.id,
+                client_secret: this._client.secret,
+                grant_type: "client_credentials"
+            }).then((res) => {
+                this.onRefreshToken(res.data); // Runs if the request is successful
+            }).finally(() => {
+                this.isRefreshing = false; // Always runs, regardless of success or failure
+            }).catch((err) => {
+                this.onRefreshTokenFailed(); // Runs if there was an error
+                return Promise.reject(err); // Propagates the error
+            });
+        } else {
+            return this._client.post(`${this._client.defaultUrl}/api/oauth/token`, {
+                grant_type: 'refresh_token',
+                client_id: 'administration',
+                scopes: 'write',
+                refresh_token: this._client.token.refresh_token
+            }).then((res) => {
+                this.onRefreshToken(res.data); // Runs if the request is successful
+            }).finally(() => {
+                this.isRefreshing = false; // Always runs, regardless of success or failure
+            }).catch((err) => {
+                this.onRefreshTokenFailed(); // Runs if there was an error
+                return Promise.reject(err); // Propagates the error
+            });
+        }
     }
 
     get allowlist() {

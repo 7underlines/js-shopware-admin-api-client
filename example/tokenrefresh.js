@@ -11,8 +11,12 @@ async function test() {
     criteria.addFilter(Criteria.equals('parentId', null));
 
     const startTime = Date.now()
+    let lastToken = api.defaultContext().authToken.access
     while (true) {
-        await new Promise(r => setTimeout(r, 10000));
+        if (lastToken !== api.defaultContext().authToken.access) {
+            console.log('Token refreshed')
+            lastToken = api.defaultContext().authToken.access
+        }
         console.log(api.defaultContext().authToken.access)
         const currentTime = Date.now()
         const elapsedTime = (currentTime - startTime) / 1000
@@ -21,6 +25,7 @@ async function test() {
         for (const product of products) {
             console.log(product.name);
         }
+        await new Promise(r => setTimeout(r, 8000));
     }
 }
 

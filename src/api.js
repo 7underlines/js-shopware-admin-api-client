@@ -6,9 +6,9 @@ import EntityFactory from './data/entity-factory.data.js';
 import Repository from './data/repository.data.js';
 
 export default class Api {
-    constructor(url, token) {
+    constructor(url, token, id, secret) {
         this.url = url;
-        this.client = createClient(url, token)
+        this.client = createClient(url, token, id, secret)
     }
 
     async _initialize() {
