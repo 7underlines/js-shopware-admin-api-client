@@ -17,7 +17,6 @@ export async function createFromPasswordAndLogin(url, username, password) {
         if (err.response && err.response.status === 401) {
             throw new Error('Invalid credentials');
         }
-
         throw err;
     }
     res.data.valid_until = Date.now() + res.data.expires_in * 1000;
@@ -38,13 +37,12 @@ export async function createFromIntegration(url, id, secret) {
             grant_type: "client_credentials"
         });
     } catch(err) {
-        if (err.response.status === 401) {
+        if (err.response && err.response.status === 401) {
             throw new Error('Invalid credentials');
         }
-        else if (err.response.status === 500) {
+        else if (err.response && err.response.status === 500) {
             throw new Error('Access key is invalid');
         }
-
         throw err;
     }
     res.data.valid_until = Date.now() + res.data.expires_in * 1000;
