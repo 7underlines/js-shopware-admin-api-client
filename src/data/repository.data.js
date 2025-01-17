@@ -233,6 +233,30 @@ export default class Repository {
         });
     }
 
+    sendUpsertsRaw(payload, context) {
+        const headers = this.buildHeaders(context);
+        console.log(payload)
+        return this.httpClient.post(
+            '_action/sync',
+            {
+                [this.entityName]: {
+                    entity: this.entityName,
+                    action: 'upsert',
+                    payload: payload
+                }
+            },
+            { headers, version: this.options.version }
+        ).then(({ data }) => {
+            if (data.success === false) {
+                throw data;
+            }
+            return Promise.resolve();
+        }).catch((errorResponse) => {
+            console.log(errorResponse.response.data.errors)
+            throw errorResponse;
+        });
+    }
+
     /**
      * @private
      * @param errorResponse
