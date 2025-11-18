@@ -57,7 +57,7 @@ export async function create(url, id, secret) {
     try {
         return await createFromIntegration(url, id, secret);
     } catch(err) {
-        if (err.message === 'Access key is invalid') {
+        if (err.message === 'Access key is invalid' || err.code === 'ERR_BAD_REQUEST') {
             return await createFromPasswordAndLogin(url, id, secret);
         }
         throw err;
